@@ -11,9 +11,9 @@ function initMap() {
     // scrollwheel: false,
     mapTypeID: 'roadmap',
     zoom: 13,
-    zoomControl: false,
+    zoomControl: true,
     // panControl: false,
-    streetViewControl: false,
+    // streetViewControl: false,
   });
 
   // --------------------------------------------------------------//
