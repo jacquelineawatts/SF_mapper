@@ -11,14 +11,14 @@ class Path(db.Model):
     __tablename__ = "paths"
 
     path_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    completed_at = db.Column(db.DateTime, nullable=False)
+    destination = db.Column(db.String(30), nullable=False)
     start_lat = db.Column(db.String(15), nullable=False)
     start_long = db.Column(db.String(15), nullable=False)
     end_lat = db.Column(db.String(15), nullable=False)
     end_long = db.Column(db.String(15), nullable=False)
 
     def __repr__(self):
-        return "<Path_id={} date={}>".format(self.path_id, self.completed_at)
+        return "<{} Destination: {}>".format(self.path_id, self.destination)
 
 
 #---------------------------------------------------------------------#

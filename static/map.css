@@ -4,7 +4,9 @@
 
 body {
     background-color: #04162b;
-    color: #FFFFFF
+    color: #FFFFFF;
+    padding-left: 25px;
+    padding-top: 25px;
 }
 
 a {
@@ -22,6 +24,9 @@ a:active {
     color: #fff;
 }
 
+p {
+    padding-left: 50px;
+}
 /*--------------------------------*/
 /*Homepage*/
 /*--------------------------------*/

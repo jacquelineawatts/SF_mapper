@@ -18,7 +18,7 @@ def index():
 
     google_api_key = os.environ['GOOGLE_MAP_API_KEY']
 
-    return render_template("map.html", google_api_key=google_api_key)
+    return render_template("distance.html", google_api_key=google_api_key)
 
 
 # @app.route('/bears.json')

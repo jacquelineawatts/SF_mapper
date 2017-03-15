@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div id='d1'></div>
+<div id='d2'></div>
+<div id='d3'></div>
+<div id='d4'></div>
+
+<script>
+
+    var origin = new google.maps.LatLng(37.760289, -122.418013); // 413 Capp st
+
+    var destination1 = 'South Lake Tahoe, CA';
+    var destination2 = 'Mount Tamalpais, Marin County, CA';
+    var destination3 = 'Santa Cruz, CA';
+    var destination4 = 'Yosemite National Park, California';
+    // See using lat/long (more precise)
+        // var destination1 = new google.maps.LatLng(38.866416, -120.040186); // Tahoe
+        // var destination2 = new google.maps.LatLng(37.927200, -122.596562); // Mt Tam
+        // var destination3 = new google.maps.LatLng(36.950956, -122.026746); // Santa Cruz
+        // var destination4 = new google.maps.LatLng(37.806835, -119.544400); // Yosemite
+
+    var service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix(
+      {
+        origins: [origin],
+        destinations: [destination1, destination2, destination3, destination4],
+        travelMode: 'DRIVING',
+        drivingOptions: {
+            departureTime: new Date(Date.now()),
+            trafficModel: 'bestguess',
+            },
+        unitSystem: google.maps.UnitSystem.IMPERIAL,
+        avoidHighways: false,
+        avoidTolls: false,
+      }, callback);
+
+
+    function callback(response, status) {
+        if (status == 'OK') {
+            
+            var origins = response.originAddresses;
+            var destinations = response.destinationAddresses;
+            var divs = ['#d1', '#d2', '#d3', '#d4']
+            
+            for (var i=0; i < origins.length; i++) {
+                
+                var results = response.rows[i].elements;
+                // console.log(results)
+                for (var j=0; j < results.length; j++) {
+
+                    var element = results[j];
+                    console.log(element)
+                    var distance = element.distance.text;
+                    var duration = element.duration.text;
+                    var duration_in_traffic = element.duration_in_traffic.text;
+                    var from = origins[i];
+                    var to = destinations[j]
+
+                    var html_str = '<h4>' + to + '</h4><p>Duration: ' + duration + '</p><p> Current travel time w/traffic: ' + duration_in_traffic + '</p>'
+                    $(divs[j]).html(html_str);
+                }
+            }
+        }
+    }
+</script>
+{% endblock %}
