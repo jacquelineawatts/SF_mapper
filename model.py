@@ -27,6 +27,8 @@ def connect_to_db(app):
     """Connect the database to Flask app."""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///sfmapping'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
 

@@ -1,15 +1,41 @@
 {% extends 'base.html' %}
 {% block head %}
 
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}"></script>
-    <script src="https://code.jquery.com/jquery.js"></script>
-<!--     // <script src="/static/mapstyles.js"></script> -->
-
-    <script src="/static/map.js"></script>
-
 {% endblock %}
 
 
 {% block body %}
     <div id="sf-map"></div>
+
+<script type="text/javascript">
+
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('sf-map'), {
+            center: {lat: 37.7749, lng: -122.4194},
+            zoom: 12
+        });
+
+        $.get('/get_markers.json', mapMarkers);
+    }
+
+
+    function mapMarkers(data) {
+
+        for (var food_truck in data) {
+            let value = data[food_truck];
+
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(value['lat'], value['long']),
+                map: map,
+            });
+            console.log(marker);
+        }
+    }
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqR90MYpn5Y7DBybSrpHneiV-cJYeDv2k&callback=initMap" async defer></script>
+
+
 {% endblock %}

@@ -5,10 +5,12 @@ from flask import Flask, render_template, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, Path
 import os
+import requests
 
 app = Flask(__name__)
 app.secret_key = "temp"
 app.jinja_env.undefined = StrictUndefined
+
 
 #---------------------------------------------------------------------#
 
@@ -16,35 +18,43 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Show homepage."""
 
-    google_api_key = os.environ['GOOGLE_MAP_API_KEY']
-
-    return render_template("distance.html", google_api_key=google_api_key)
+    return render_template("distance.html")
 
 
-# @app.route('/bears.json')
-# def bear_info():
-#     """JSON information about bears."""
+@app.route('/map')
+def show_map():
+    """Show food trucks from SF Open Data on a map. """
 
-#     bears = {
-#         bear.marker_id: {
-#             "bearId": bear.bear_id,
-#             "gender": bear.gender,
-#             "birthYear": bear.birth_year,
-#             "capYear": bear.cap_year,
-#             "capLat": bear.cap_lat,
-#             "capLong": bear.cap_long,
-#             "collared": bear.collared.lower()
-#         }
-#         for bear in Bear.query.limit(50)}
+    root_url = 'https://data.sfgov.org/resource/6a9r-agq8.json'
+    r = requests.get(root_url)
 
-#     return jsonify(bears)
+    food_trucks = {}
 
+    for food_truck in r.json():
+        food_trucks[food_truck['applicant']] = {'name': food_truck['applicant'],
+                                                'latitude': food_truck['latitude'],
+                                                'longitude': food_truck['longitude'],
+                                                }     
 
-# @app.route('/simplemap')
-# def simple():
-#     """Show simple map."""
+    print food_trucks
 
-#     return render_template("simple.html")
+    return render_template('map.html', food_trucks=food_trucks)
+
+@app.route('/get_markers.json')
+def get_food_truck_markers():
+    """Retrieve API data for food truck lat/long."""
+
+    root_url = 'https://data.sfgov.org/resource/6a9r-agq8.json'
+    r = requests.get(root_url)
+
+    food_trucks = { food_truck['applicant']: { 'name': food_truck['applicant'],
+                                                'lat': food_truck['latitude'],
+                                                'long': food_truck['longitude']
+                                              } 
+    for food_truck in r.json()[:5]}
+
+    return jsonify(food_trucks)
+
 
 
 # @app.route('/geolocate')
@@ -54,11 +64,6 @@ def index():
 #     return render_template("geolocate.html")
 
 
-# @app.route('/savemap')
-# def save():
-#     """Saving demo."""
-
-#     return render_template("saved.html")
 
 
 #---------------------------------------------------------------------#
