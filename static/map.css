@@ -27,18 +27,7 @@ a:active {
 p {
     padding-left: 50px;
 }
-/*--------------------------------*/
-/*Homepage*/
-/*--------------------------------*/
 
-/*#bearlink {
-    padding: 200px;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 100;
-    font-size: 36px;
-    color: #fff;
-}
-*/
 /*--------------------------------*/
 /*Maps*/
 /*--------------------------------*/
@@ -51,4 +40,9 @@ p {
 .window-content {
     color: #04162b;
     width: 150px;
+}
+
+.map-pin {
+    padding-top: 5px;
+    color: black;
 }
