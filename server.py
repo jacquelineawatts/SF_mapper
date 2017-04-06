@@ -51,17 +51,17 @@ def get_food_truck_markers():
                                                 'lat': food_truck['latitude'],
                                                 'long': food_truck['longitude']
                                               } 
-    for food_truck in r.json()[:5]}
+    for food_truck in r.json()[:10]}
 
     return jsonify(food_trucks)
 
 
 
-# @app.route('/geolocate')
-# def geolocate():
-#     """Show geolocating demo."""
+@app.route('/geolocate')
+def geolocate():
+    """Show geolocating demo."""
 
-#     return render_template("geolocate.html")
+    return render_template("geolocate.html")
 
 
 
